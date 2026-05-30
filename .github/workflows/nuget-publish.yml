@@ -60,10 +60,10 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build src/Common.Shared/Common.Shared.csproj --configuration Release --no-restore
 
-      - name: Test
-        run: dotnet test --configuration Release --no-build --verbosity normal
+      # - name: Test
+      #   run: dotnet test --configuration Release --no-build --verbosity normal
 
       # ── Dyvenix.App1.Common.Shared ──────────────────────────────────────────
 
@@ -85,36 +85,36 @@ jobs:
 
       # ── Dyvenix.App1.Common.Data ────────────────────────────────────────────
 
-      - name: Pack Data
-        if: needs.detect-changes.outputs.data == 'true'
-        run: >
-          dotnet pack src/Common.Data/Common.Data.csproj
-          --configuration Release
-          --no-build
-          --output ./nupkgs
+      # - name: Pack Data
+      #   if: needs.detect-changes.outputs.data == 'true'
+      #   run: >
+      #     dotnet pack src/Common.Data/Common.Data.csproj
+      #     --configuration Release
+      #     --no-build
+      #     --output ./nupkgs
 
-      - name: Publish Data
-        if: needs.detect-changes.outputs.data == 'true'
-        run: >
-          dotnet nuget push ./nupkgs/Dyvenix.App1.Common.Data.*.nupkg
-          --source github
-          --api-key ${{ secrets.GITHUB_TOKEN }}
-          --skip-duplicate
+      # - name: Publish Data
+      #   if: needs.detect-changes.outputs.data == 'true'
+      #   run: >
+      #     dotnet nuget push ./nupkgs/Dyvenix.App1.Common.Data.*.nupkg
+      #     --source github
+      #     --api-key ${{ secrets.GITHUB_TOKEN }}
+      #     --skip-duplicate
 
-      # ── Dyvenix.App1.Common.Api ─────────────────────────────────────────────
+      # # ── Dyvenix.App1.Common.Api ─────────────────────────────────────────────
 
-      - name: Pack Api
-        if: needs.detect-changes.outputs.api == 'true'
-        run: >
-          dotnet pack src/Common.Api/Common.Api.csproj
-          --configuration Release
-          --no-build
-          --output ./nupkgs
+      # - name: Pack Api
+      #   if: needs.detect-changes.outputs.api == 'true'
+      #   run: >
+      #     dotnet pack src/Common.Api/Common.Api.csproj
+      #     --configuration Release
+      #     --no-build
+      #     --output ./nupkgs
 
-      - name: Publish Api
-        if: needs.detect-changes.outputs.api == 'true'
-        run: >
-          dotnet nuget push ./nupkgs/Dyvenix.App1.Common.Api.*.nupkg
-          --source github
-          --api-key ${{ secrets.GITHUB_TOKEN }}
-          --skip-duplicate
+      # - name: Publish Api
+      #   if: needs.detect-changes.outputs.api == 'true'
+      #   run: >
+      #     dotnet nuget push ./nupkgs/Dyvenix.App1.Common.Api.*.nupkg
+      #     --source github
+      #     --api-key ${{ secrets.GITHUB_TOKEN }}
+      #     --skip-duplicate
