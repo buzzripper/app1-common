@@ -12,7 +12,7 @@
 	<!-- NuGet -->
 	<PropertyGroup>
 		<PackageId>Dyvenix.App1.Common.Shared</PackageId>
-		<Version>1.0.2</Version>
+		<Version>1.0.3</Version>
 		<Company>Dyvenix</Company>
 		<Description>Common functionality</Description>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
