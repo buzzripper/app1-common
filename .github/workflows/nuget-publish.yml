@@ -1,0 +1,120 @@
+name: Build and Publish NuGet Packages
+
+on:
+  push:
+    branches:
+      - main
+      - Development
+    paths:
+      - 'src/**'
+      - '.github/workflows/nuget-publish.yml'
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      shared: ${{ steps.filter.outputs.shared }}
+      api: ${{ steps.filter.outputs.api }}
+      data: ${{ steps.filter.outputs.data }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            shared:
+              - 'src/Common.Shared/**'
+            api:
+              - 'src/Common.Api/**'
+              - 'src/Common.Shared/**'
+            data:
+              - 'src/Common.Data/**'
+              - 'src/Common.Shared/**'
+
+  build-test-publish:
+    needs: detect-changes
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Configure GitHub NuGet source
+        run: >
+          dotnet nuget add source
+          "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+          --name github
+          --username ${{ github.actor }}
+          --password ${{ secrets.GITHUB_TOKEN }}
+          --store-password-in-clear-text
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test --configuration Release --no-build --verbosity normal
+
+      # ── Dyvenix.App1.Common.Shared ──────────────────────────────────────────
+
+      - name: Pack Shared
+        if: needs.detect-changes.outputs.shared == 'true'
+        run: >
+          dotnet pack src/Common.Shared/Common.Shared.csproj
+          --configuration Release
+          --no-build
+          --output ./nupkgs
+
+      - name: Publish Shared
+        if: needs.detect-changes.outputs.shared == 'true'
+        run: >
+          dotnet nuget push ./nupkgs/Dyvenix.App1.Common.Shared.*.nupkg
+          --source github
+          --api-key ${{ secrets.GITHUB_TOKEN }}
+          --skip-duplicate
+
+      # ── Dyvenix.App1.Common.Data ────────────────────────────────────────────
+
+      - name: Pack Data
+        if: needs.detect-changes.outputs.data == 'true'
+        run: >
+          dotnet pack src/Common.Data/Common.Data.csproj
+          --configuration Release
+          --no-build
+          --output ./nupkgs
+
+      - name: Publish Data
+        if: needs.detect-changes.outputs.data == 'true'
+        run: >
+          dotnet nuget push ./nupkgs/Dyvenix.App1.Common.Data.*.nupkg
+          --source github
+          --api-key ${{ secrets.GITHUB_TOKEN }}
+          --skip-duplicate
+
+      # ── Dyvenix.App1.Common.Api ─────────────────────────────────────────────
+
+      - name: Pack Api
+        if: needs.detect-changes.outputs.api == 'true'
+        run: >
+          dotnet pack src/Common.Api/Common.Api.csproj
+          --configuration Release
+          --no-build
+          --output ./nupkgs
+
+      - name: Publish Api
+        if: needs.detect-changes.outputs.api == 'true'
+        run: >
+          dotnet nuget push ./nupkgs/Dyvenix.App1.Common.Api.*.nupkg
+          --source github
+          --api-key ${{ secrets.GITHUB_TOKEN }}
+          --skip-duplicate

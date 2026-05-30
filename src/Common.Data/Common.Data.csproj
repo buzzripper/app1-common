@@ -26,4 +26,22 @@
 		<ProjectReference Include="..\Common.Shared\Common.Shared.csproj" />
 	</ItemGroup>
 
+	<!-- Build configurations for switching between project references and package references -->
+
+	<!-- Debugging Common.Shared project locally -->
+	<PropertyGroup Condition="'$(Configuration)'=='Debug (CS)'">
+		<UseProjectRefs>true</UseProjectRefs>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'!='Debug (CS)'">
+		<UseProjectRefs>false</UseProjectRefs>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(UseProjectRefs)' == 'true'">
+		<ProjectReference Include="..\Common.Shared\Common.Shared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(UseProjectRefs)' != 'true'">
+		<PackageReference Include="Dyvenix.App1.Common.Shared" Version="1.0.3" />
+	</ItemGroup>
+	
 </Project>
