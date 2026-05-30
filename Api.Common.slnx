@@ -4,6 +4,9 @@
     <BuildType Name="Debug (CS)" />
     <BuildType Name="Release" />
   </Configurations>
+  <Folder Name="/GitHub/">
+    <File Path=".github/workflows/nuget-publish.yml" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/Common.Api/Common.Api.csproj" />
     <Project Path="src/Common.Data/Common.Data.csproj" />
