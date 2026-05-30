@@ -1,0 +1,19 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Debug (CS)" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/src/">
+    <Project Path="src/Common.Api/Common.Api.csproj" />
+    <Project Path="src/Common.Data/Common.Data.csproj" />
+    <Project Path="src/Common.Shared/Common.Shared.csproj">
+      <BuildType Solution="Debug (CS)|*" Project="Debug" />
+      <Build Solution="Debug (CS)|*" Project="false" />
+    </Project>
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Common.Api.UnitTests/Common.Api.UnitTests.csproj" Id="74cb2589-ee0f-40e2-8d1b-ee8f3adf0c65" />
+    <Project Path="tests/Common.Shared.UnitTests/Common.Shared.UnitTests.csproj" Id="c85bfa22-bacb-47b4-9361-905df5a30f63" />
+  </Folder>
+  </Solution>
