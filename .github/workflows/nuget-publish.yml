@@ -57,7 +57,7 @@ jobs:
           --store-password-in-clear-text
 
       - name: Restore
-        run: dotnet restore
+        run: dotnet restore src/Common.Shared/Common.Shared.csproj
 
       - name: Build
         run: dotnet build src/Common.Shared/Common.Shared.csproj --configuration Release --no-restore
