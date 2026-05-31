@@ -76,41 +76,35 @@ public static class BuilderExtensions
 	/// </summary>
 	public static WebApplication MapDefaultEndpoints(this WebApplication app)
 	{
-		// Adding health checks endpoints to applications in non-development environments has security implications.
-		// See https://aka.ms/dotnet/aspire/healthchecks for details before enabling these endpoints in non-development environments.
-		if (app.Environment.IsDevelopment())
+		// Only health checks tagged with the "live" tag must pass for app to be considered alive
+		app.MapHealthChecks($"/{AlivenessEndpointName}", new HealthCheckOptions
 		{
-			// Only health checks tagged with the "live" tag must pass for app to be considered alive
-			app.MapHealthChecks($"/{AlivenessEndpointName}", new HealthCheckOptions
-			{
-				Predicate = r => r.Tags.Contains(AlivenessEndpointName)
-			});
+			Predicate = r => r.Tags.Contains(AlivenessEndpointName)
+		});
 
-			// All health checks must pass for app to be considered ready to accept traffic after starting
-			app.MapHealthChecks($"/{HealthEndpointName}", new HealthCheckOptions
+		// All health checks must pass for app to be considered ready to accept traffic after starting
+		app.MapHealthChecks($"/{HealthEndpointName}", new HealthCheckOptions
+		{
+			ResponseWriter = async (context, report) =>
 			{
-				ResponseWriter = async (context, report) =>
+				context.Response.ContentType = "application/json";
+
+				var result = new
 				{
-					context.Response.ContentType = "application/json";
-
-					var result = new
+					status = report.Status.ToString(),
+					checks = report.Entries.Select(e => new
 					{
-						status = report.Status.ToString(),
-						checks = report.Entries.Select(e => new
-						{
-							name = e.Key,
-							status = e.Value.Status.ToString(),
-							description = e.Value.Description,
-							data = e.Value.Data   // <-- THIS is your dictionary
-						})
-					};
+						name = e.Key,
+						status = e.Value.Status.ToString(),
+						description = e.Value.Description,
+						data = e.Value.Data   // <-- THIS is your dictionary
+					})
+				};
 
-					await context.Response.WriteAsync(
-						JsonSerializer.Serialize(result));
-				}
-			});
-
-		}
+				await context.Response.WriteAsync(
+					JsonSerializer.Serialize(result));
+			}
+		});
 
 		return app;
 	}
