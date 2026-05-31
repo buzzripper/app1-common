@@ -35,9 +35,8 @@
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.18.0" />
 	</ItemGroup>
 
-	<!-- Build configurations for switching between project references and package references -->
+	<!-- **************  START: Build configurations  **************** -->
 
-	<!-- Debugging Common.Shared project locally -->
 	<PropertyGroup Condition="'$(Configuration)'=='Debug (CS)'">
 		<UseProjectRefs>true</UseProjectRefs>
 	</PropertyGroup>
@@ -51,6 +50,12 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Common.Shared\Common.Shared.csproj" />
+	</ItemGroup>
+
+	<!-- **************  END: Build configurations  **************** -->
+
+	<ItemGroup>
+	  <Folder Include="Extensions\WebApplication\" />
 	</ItemGroup>
 
 </Project>

@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Dyvenix.App1.Common.Api.Extensions;
+namespace Dyvenix.App1.Common.Api.Extensions.ServiceCollection;
 
-public static class AuthorizationExtensions
+public static class AuthExtensions
 {
 	public static IServiceCollection AddPermissionAuthorization(this IServiceCollection services)
 	{
