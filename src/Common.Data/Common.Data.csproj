@@ -12,7 +12,7 @@
 	<!-- NuGet -->
 	<PropertyGroup>
 		<PackageId>Dyvenix.App1.Common.Data</PackageId>
-		<Version>1.0.3</Version>
+		<Version>1.0.4</Version>
 		<Company>Dyvenix</Company>
 		<Description>Common Data functionality</Description>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -38,10 +38,6 @@
 
 	<ItemGroup Condition="'$(UseProjectRefs)' == 'true'">
 		<ProjectReference Include="..\Common.Shared\Common.Shared.csproj" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(UseProjectRefs)' != 'true'">
-		<PackageReference Include="Dyvenix.App1.Common.Shared" Version="1.0.3" />
 	</ItemGroup>
 	
 </Project>

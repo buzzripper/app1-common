@@ -12,7 +12,7 @@
 	<!-- NuGet -->
 	<PropertyGroup>
 		<PackageId>Dyvenix.App1.Common.Api</PackageId>
-		<Version>1.0.3</Version>
+		<Version>1.0.4</Version>
 		<Company>Dyvenix</Company>
 		<Description>Common API functionality</Description>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -32,7 +32,6 @@
 		<PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.2" />
 		<PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.15.1" />
 		<PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.15.1" />
-		<PackageReference Include="Dyvenix.App1.Common.Shared" Version="1.0.1" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.18.0" />
 	</ItemGroup>
 
@@ -50,8 +49,8 @@
 		<ProjectReference Include="..\Common.Shared\Common.Shared.csproj" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(UseProjectRefs)' != 'true'">
-		<PackageReference Include="Dyvenix.App1.Common.Shared" Version="1.0.3" />
+	<ItemGroup>
+	  <ProjectReference Include="..\Common.Shared\Common.Shared.csproj" />
 	</ItemGroup>
 
 </Project>

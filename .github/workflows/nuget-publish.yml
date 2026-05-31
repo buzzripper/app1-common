@@ -10,30 +10,7 @@ on:
       - '.github/workflows/nuget-publish.yml'
 
 jobs:
-  detect-changes:
-    runs-on: ubuntu-latest
-    outputs:
-      shared: ${{ steps.filter.outputs.shared }}
-      api: ${{ steps.filter.outputs.api }}
-      data: ${{ steps.filter.outputs.data }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: dorny/paths-filter@v3
-        id: filter
-        with:
-          filters: |
-            shared:
-              - 'src/Common.Shared/**'
-            api:
-              - 'src/Common.Api/**'
-              - 'src/Common.Shared/**'
-            data:
-              - 'src/Common.Data/**'
-              - 'src/Common.Shared/**'
-
   build-test-publish:
-    needs: detect-changes
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -58,6 +35,16 @@ jobs:
 
       # ── Dyvenix.App1.Common.Shared ──────────────────────────────────────────
 
+      - name: Check Shared version
+        id: shared
+        run: |
+          VERSION=$(grep -oPm1 '(?<=<Version>)[^<]+' src/Common.Shared/Common.Shared.csproj)
+          echo "version=$VERSION"
+          EXISTS=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            "https://nuget.pkg.github.com/${{ github.repository_owner }}/download/dyvenix.app1.common.shared/index.json" \
+            | grep -c "\"$VERSION\"" || true)
+          if [ "$EXISTS" = "0" ]; then echo "publish=true" >> "$GITHUB_OUTPUT"; else echo "publish=false" >> "$GITHUB_OUTPUT"; fi
+
       - name: Restore Shared
         run: dotnet restore src/Common.Shared/Common.Shared.csproj
 
@@ -65,7 +52,7 @@ jobs:
         run: dotnet build src/Common.Shared/Common.Shared.csproj --configuration Release --no-restore
 
       - name: Pack Shared
-        if: needs.detect-changes.outputs.shared == 'true'
+        if: steps.shared.outputs.publish == 'true'
         run: >
           dotnet pack src/Common.Shared/Common.Shared.csproj
           --configuration Release
@@ -73,7 +60,7 @@ jobs:
           --output ./nupkgs
 
       - name: Publish Shared
-        if: needs.detect-changes.outputs.shared == 'true'
+        if: steps.shared.outputs.publish == 'true'
         run: >
           dotnet nuget push ./nupkgs/Dyvenix.App1.Common.Shared.*.nupkg
           --source github
@@ -82,16 +69,26 @@ jobs:
 
       # ── Dyvenix.App1.Common.Data ────────────────────────────────────────────
 
+      - name: Check Data version
+        id: data
+        run: |
+          VERSION=$(grep -oPm1 '(?<=<Version>)[^<]+' src/Common.Data/Common.Data.csproj)
+          echo "version=$VERSION"
+          EXISTS=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            "https://nuget.pkg.github.com/${{ github.repository_owner }}/download/dyvenix.app1.common.data/index.json" \
+            | grep -c "\"$VERSION\"" || true)
+          if [ "$EXISTS" = "0" ]; then echo "publish=true" >> "$GITHUB_OUTPUT"; else echo "publish=false" >> "$GITHUB_OUTPUT"; fi
+
       - name: Restore Data
-        if: needs.detect-changes.outputs.data == 'true'
+        if: steps.data.outputs.publish == 'true'
         run: dotnet restore src/Common.Data/Common.Data.csproj
 
       - name: Build Data
-        if: needs.detect-changes.outputs.data == 'true'
+        if: steps.data.outputs.publish == 'true'
         run: dotnet build src/Common.Data/Common.Data.csproj --configuration Release --no-restore
 
       - name: Pack Data
-        if: needs.detect-changes.outputs.data == 'true'
+        if: steps.data.outputs.publish == 'true'
         run: >
           dotnet pack src/Common.Data/Common.Data.csproj
           --configuration Release
@@ -99,7 +96,7 @@ jobs:
           --output ./nupkgs
 
       - name: Publish Data
-        if: needs.detect-changes.outputs.data == 'true'
+        if: steps.data.outputs.publish == 'true'
         run: >
           dotnet nuget push ./nupkgs/Dyvenix.App1.Common.Data.*.nupkg
           --source github
@@ -108,16 +105,26 @@ jobs:
 
       # ── Dyvenix.App1.Common.Api ─────────────────────────────────────────────
 
+      - name: Check Api version
+        id: api
+        run: |
+          VERSION=$(grep -oPm1 '(?<=<Version>)[^<]+' src/Common.Api/Common.Api.csproj)
+          echo "version=$VERSION"
+          EXISTS=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            "https://nuget.pkg.github.com/${{ github.repository_owner }}/download/dyvenix.app1.common.api/index.json" \
+            | grep -c "\"$VERSION\"" || true)
+          if [ "$EXISTS" = "0" ]; then echo "publish=true" >> "$GITHUB_OUTPUT"; else echo "publish=false" >> "$GITHUB_OUTPUT"; fi
+
       - name: Restore Api
-        if: needs.detect-changes.outputs.api == 'true'
+        if: steps.api.outputs.publish == 'true'
         run: dotnet restore src/Common.Api/Common.Api.csproj
 
       - name: Build Api
-        if: needs.detect-changes.outputs.api == 'true'
+        if: steps.api.outputs.publish == 'true'
         run: dotnet build src/Common.Api/Common.Api.csproj --configuration Release --no-restore
 
       - name: Pack Api
-        if: needs.detect-changes.outputs.api == 'true'
+        if: steps.api.outputs.publish == 'true'
         run: >
           dotnet pack src/Common.Api/Common.Api.csproj
           --configuration Release
@@ -125,7 +132,7 @@ jobs:
           --output ./nupkgs
 
       - name: Publish Api
-        if: needs.detect-changes.outputs.api == 'true'
+        if: steps.api.outputs.publish == 'true'
         run: >
           dotnet nuget push ./nupkgs/Dyvenix.App1.Common.Api.*.nupkg
           --source github
