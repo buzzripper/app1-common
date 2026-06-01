@@ -4,6 +4,8 @@ using Dyvenix.App1.Common.Shared.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Dyvenix.App1.Common.Api.Extensions.SvcCollExtensions;
 

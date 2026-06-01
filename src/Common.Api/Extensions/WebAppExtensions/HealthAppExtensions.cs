@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Http;
 using System.Text.Json;
 
 namespace Dyvenix.App1.Common.Api.Extensions.WebAppExtensions;
@@ -82,8 +84,7 @@ public static class HealthAppExtensions
 					})
 				};
 
-				await context.Response.WriteAsync(
-					JsonSerializer.Serialize(result));
+				await context.Response.WriteAsync(JsonSerializer.Serialize(result));
 			}
 		});
 
