@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 		<AssemblyName>Dyvenix.App1.Common.Api</AssemblyName>
 		<RootNamespace>Dyvenix.App1.Common.Api</RootNamespace>
-		<Configurations>Debug;Release;Debug (CS)</Configurations>
+		<Configurations>Debug;Release;Debug-Local</Configurations>
 	</PropertyGroup>
 
 	<!-- NuGet -->
@@ -16,10 +16,11 @@
 		<Company>Dyvenix</Company>
 		<Description>Common API functionality</Description>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<OutputType>Library</OutputType>
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<!--<FrameworkReference Include="Microsoft.AspNetCore.App" />-->
 
 		<PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="10.6.0" />
 		<PackageReference Include="Microsoft.Extensions.ServiceDiscovery" Version="10.6.0" />
@@ -37,25 +38,19 @@
 
 	<!-- **************  START: Build configurations  **************** -->
 
-	<PropertyGroup Condition="'$(Configuration)'=='Debug (CS)'">
+	<PropertyGroup Condition="'$(Configuration)'=='Debug-Local'">
 		<UseProjectRefs>true</UseProjectRefs>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)'!='Debug (CS)'">
+	<PropertyGroup Condition="'$(Configuration)'!='Debug-Local'">
 		<UseProjectRefs>false</UseProjectRefs>
 	</PropertyGroup>
-
+	<ItemGroup Condition="'$(UseProjectRefs)' == 'false'">
+		<PackageReference Include="Dyvenix.App1.Common.Shared" Version="1.0.4" />
+	</ItemGroup>
 	<ItemGroup Condition="'$(UseProjectRefs)' == 'true'">
 		<ProjectReference Include="..\Common.Shared\Common.Shared.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\Common.Shared\Common.Shared.csproj" />
-	</ItemGroup>
-
 	<!-- **************  END: Build configurations  **************** -->
-
-	<ItemGroup>
-	  <Folder Include="Extensions\WebApplication\" />
-	</ItemGroup>
 
 </Project>

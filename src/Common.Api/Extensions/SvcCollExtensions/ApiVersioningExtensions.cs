@@ -1,13 +1,11 @@
 using Asp.Versioning;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Dyvenix.App1.Common.Api.Extensions;
+namespace Dyvenix.App1.Common.Api.Extensions.SvcCollExtensions;
 
 /// <summary>
 /// Common extensions for API server hosts.
 /// </summary>
-public static class StandardExtensions
+public static class ApiVersioningExtensions
 {
 	/// <summary>
 	/// Configures standard API versioning with default version 1.0.
@@ -28,15 +26,12 @@ public static class StandardExtensions
 		return services;
 	}
 
-	/// <summary>
-	/// Configures the standard API middleware pipeline.
-	/// </summary>
-	public static WebApplication UseStandardApiPipeline(this WebApplication app)
-	{
-		app.UseHttpsRedirection();
-		app.UseAuthentication();
-		app.UseAuthorization();
+	///// <summary>
+	///// Configures the standard API middleware pipeline.
+	///// </summary>
+	//public static WebApplication UseStandardApiPipeline(this WebApplication app)
+	//{
 
-		return app;
-	}
+	//	return app;
+	//}
 }

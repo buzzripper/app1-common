@@ -1,9 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using OpenTelemetry;
+﻿using OpenTelemetry;
 
-namespace Dyvenix.App1.Common.Api.Extensions.Builder;
+namespace Dyvenix.App1.Common.Api.Extensions.BuilderExtensions;
 
 public static class TelemetryExtensions
 {

@@ -1,32 +1,28 @@
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using System.Text.Json;
 
-namespace Dyvenix.App1.Common.Api.Extensions;
+namespace Dyvenix.App1.Common.Api.Extensions.WebAppExtensions;
 
 /// <summary>
 /// Common extensions for resilience, health checks, and OpenTelemetry.
 /// This project should be referenced by each service project in your solution.
 /// Based on Aspire ServiceDefaults pattern.
 /// </summary>
-public static class BuilderExtensions
+public static class HealthAppExtensions
 {
 	/// <summary>
 	/// Adds service defaults including OpenTelemetry, health checks, service discovery, and HTTP client resilience.
 	/// </summary>
-	public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
-	{
-		//builder.ConfigureOpenTelemetry();
+	//public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+	//{
+	//	//builder.ConfigureOpenTelemetry();
 
-		//builder.AddDefaultHealthChecks();
+	//	//builder.AddDefaultHealthChecks();
 
-		builder.Services.AddServiceDiscovery();
+	//	//builder.Services.AddServiceDiscovery();
 
-		return builder;
-	}
+	//	return builder;
+	//}
 
 	///// <summary>
 	///// Configures OpenTelemetry for logging with OTLP export.
@@ -59,7 +55,7 @@ public static class BuilderExtensions
 	/// <summary>
 	/// Maps health check endpoints for readiness and liveness probes.
 	/// </summary>
-	public static WebApplication MapDefaultEndpoints(this WebApplication app)
+	public static WebApplication MapHealthEndpoints(this WebApplication app)
 	{
 		// Only health checks tagged with the "live" tag must pass for app to be considered alive
 		app.MapHealthChecks($"/{Constants.AlivenessEndpointName}", new HealthCheckOptions

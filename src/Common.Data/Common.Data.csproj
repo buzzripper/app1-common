@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 		<AssemblyName>Dyvenix.App1.Common.Data</AssemblyName>
 		<RootNamespace>Dyvenix.App1.Common.Data</RootNamespace>
-		<Configurations>Debug;Release;Debug (CS)</Configurations>
+		<Configurations>Debug;Release</Configurations>
 	</PropertyGroup>
 
 	<!-- NuGet -->
@@ -26,18 +26,21 @@
 		<ProjectReference Include="..\Common.Shared\Common.Shared.csproj" />
 	</ItemGroup>
 
-	<!-- Build configurations for switching between project references and package references -->
+	<!-- **************  START: Build configurations  **************** -->
 
-	<!-- Debugging Common.Shared project locally -->
-	<PropertyGroup Condition="'$(Configuration)'=='Debug (CS)'">
-		<UseProjectRefs>true</UseProjectRefs>
+	<PropertyGroup>
+		<UseProjectRefs Condition="'$(Configuration)' == 'Debug-Local'">true</UseProjectRefs>
+		<UseProjectRefs Condition="'$(UseProjectRefs)' == ''">false</UseProjectRefs>
+		<OutputType>Library</OutputType>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)'!='Debug (CS)'">
-		<UseProjectRefs>false</UseProjectRefs>
-	</PropertyGroup>
-
+	
+	<ItemGroup Condition="'$(UseProjectRefs)' == 'false'">
+		<PackageReference Include="Dyvenix.App1.Common.Shared" Version="1.0.4" />
+	</ItemGroup>
 	<ItemGroup Condition="'$(UseProjectRefs)' == 'true'">
 		<ProjectReference Include="..\Common.Shared\Common.Shared.csproj" />
 	</ItemGroup>
+
+	<!-- **************  END: Build configurations  **************** -->
 	
 </Project>

@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 		<AssemblyName>Dyvenix.App1.Common.Shared</AssemblyName>
 		<RootNamespace>Dyvenix.App1.Common.Shared</RootNamespace>
-		<Configurations>Debug;Release</Configurations>
+		<Configurations>Debug;Release;Debug-Local</Configurations>
 	</PropertyGroup>
 
 	<!-- NuGet -->
@@ -19,10 +19,26 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Dyvenix.Core" Version="1.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.10" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.8" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.8" />
 	</ItemGroup>
+
+	<!-- **************  START: Build configurations  **************** -->
+
+	<PropertyGroup Condition="'$(Configuration)'!='Debug-Local'">
+		<UseProjectRefs>false</UseProjectRefs>
+	</PropertyGroup>
+	<ItemGroup Condition="'$(UseProjectRefs)' == 'false'">
+		<PackageReference Include="Dyvenix.Core" Version="1.0.1" />
+	</ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Debug-Local'">
+		<UseProjectRefs>true</UseProjectRefs>
+	</PropertyGroup>
+	<ItemGroup Condition="'$(UseProjectRefs)' == 'true'">
+		<ProjectReference Include="..\..\..\dyvenix-core\src\Dyvenix.Core\Dyvenix.Core.csproj" />
+	</ItemGroup>
+
+	<!-- **************  END: Build configurations  **************** -->
 
 </Project>

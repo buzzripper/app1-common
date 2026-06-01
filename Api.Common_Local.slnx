@@ -1,13 +1,9 @@
 <Solution>
   <Configurations>
-    <BuildType Name="Debug" />
-    <BuildType Name="Debug (CS)" />
-    <BuildType Name="Release" />
+    <BuildType Name="Debug-Local" />
   </Configurations>
   <Folder Name="/ext/">
-    <Project Path="../dyvenix-core/src/Dyvenix.Core/Dyvenix.Core.csproj">
-      <BuildType Solution="Debug (CS)|*" Project="Debug" />
-    </Project>
+    <Project Path="../dyvenix-core/src/Dyvenix.Core/Dyvenix.Core.csproj" />
   </Folder>
   <Folder Name="/GitHub/">
     <File Path=".github/workflows/nuget-publish.yml" />
@@ -15,10 +11,7 @@
   <Folder Name="/src/">
     <Project Path="src/Common.Api/Common.Api.csproj" />
     <Project Path="src/Common.Data/Common.Data.csproj" />
-    <Project Path="src/Common.Shared/Common.Shared.csproj">
-      <BuildType Solution="Debug (CS)|*" Project="Debug" />
-      <Build Solution="Debug (CS)|*" Project="false" />
-    </Project>
+    <Project Path="src/Common.Shared/Common.Shared.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Common.Api.UnitTests/Common.Api.UnitTests.csproj" Id="74cb2589-ee0f-40e2-8d1b-ee8f3adf0c65" />
