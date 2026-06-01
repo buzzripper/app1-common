@@ -12,7 +12,7 @@
 	<!-- NuGet -->
 	<PropertyGroup>
 		<PackageId>Dyvenix.App1.Common.Api</PackageId>
-		<Version>1.0.4</Version>
+		<Version>1.0.5</Version>
 		<Company>Dyvenix</Company>
 		<Description>Common API functionality</Description>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
