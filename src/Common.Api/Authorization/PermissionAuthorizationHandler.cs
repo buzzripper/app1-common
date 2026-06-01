@@ -3,25 +3,25 @@ using Microsoft.AspNetCore.Authorization;
 namespace Dyvenix.App1.Common.Api.Authorization;
 
 public sealed class PermissionAuthorizationHandler(PermissionRegistry permissionRegistry)
-    : AuthorizationHandler<PermissionRequirement>
+	: AuthorizationHandler<PermissionRequirement>
 {
-    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
-    {
-        if (context.User?.Identity?.IsAuthenticated != true)
-            return Task.CompletedTask;
+	protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
+	{
+		if (context.User?.Identity?.IsAuthenticated != true)
+			return Task.CompletedTask;
 
-        var rawPermissions = context.User.FindAll("perm")
-            .SelectMany(claim => claim.Value.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
+		var rawPermissions = context.User.FindAll("perm")
+			.SelectMany(claim => claim.Value.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
 
-        // Expand permissions to include implied ones (e.g., auth:admin implies auth:write, auth:read)
-        var permissions = permissionRegistry.ExpandPermissions(rawPermissions);
+		// Expand permissions to include implied ones (e.g., auth:admin implies auth:write, auth:read)
+		var permissions = permissionRegistry.ExpandPermissions(rawPermissions);
 
-        if (permissions.Count == 0)
-            return Task.CompletedTask;
+		if (permissions.Count == 0)
+			return Task.CompletedTask;
 
-        if (requirement.Permissions.Any(permission => permissions.Contains(permission)))
-            context.Succeed(requirement);
+		if (requirement.Permissions.Any(permission => permissions.Contains(permission)))
+			context.Succeed(requirement);
 
-        return Task.CompletedTask;
-    }
+		return Task.CompletedTask;
+	}
 }

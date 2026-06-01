@@ -1,4 +1,10 @@
 <Solution>
+  <Configurations>
+    <BuildType Name="Debug-Local" />
+  </Configurations>
+  <Folder Name="/ext/">
+    <Project Path="../dyvenix-core/src/Dyvenix.Core/Dyvenix.Core.csproj" />
+  </Folder>
   <Folder Name="/GitHub/">
     <File Path=".github/workflows/nuget-publish.yml" />
   </Folder>

@@ -1,4 +1,4 @@
-using Dyvenix.App1.Common.Shared.DTOs;
+using Dyvenix.Core.DTOs;
 
 namespace Dyvenix.App1.Common.Shared.Extensions;
 

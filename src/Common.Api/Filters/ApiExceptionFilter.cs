@@ -1,8 +1,7 @@
-using Dyvenix.App1.Common.Shared.DTOs;
-using Dyvenix.App1.Common.Shared.Exceptions;
+using Dyvenix.Core.DTOs;
+using Dyvenix.Core.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Logging;
 
 namespace Dyvenix.App1.Common.Api.Filters;
 

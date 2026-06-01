@@ -1,6 +1,5 @@
-using System.Security.Claims;
 using Dyvenix.App1.Common.Shared.Contracts;
-using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace Dyvenix.App1.Common.Api.Services;
 

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
@@ -6,20 +6,21 @@
 		<Nullable>enable</Nullable>
 		<AssemblyName>Dyvenix.App1.Common.Api</AssemblyName>
 		<RootNamespace>Dyvenix.App1.Common.Api</RootNamespace>
-		<Configurations>Debug;Release;Debug (CS)</Configurations>
+		<Configurations>Debug;Release;Debug-Local</Configurations>
 	</PropertyGroup>
 
 	<!-- NuGet -->
 	<PropertyGroup>
 		<PackageId>Dyvenix.App1.Common.Api</PackageId>
-		<Version>1.0.2</Version>
+		<Version>1.0.5</Version>
 		<Company>Dyvenix</Company>
 		<Description>Common API functionality</Description>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<OutputType>Library</OutputType>
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<!--<FrameworkReference Include="Microsoft.AspNetCore.App" />-->
 
 		<PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="10.6.0" />
 		<PackageReference Include="Microsoft.Extensions.ServiceDiscovery" Version="10.6.0" />
@@ -32,26 +33,24 @@
 		<PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.2" />
 		<PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.15.1" />
 		<PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.15.1" />
-		<PackageReference Include="Dyvenix.App1.Common.Shared" Version="1.0.1" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.18.0" />
 	</ItemGroup>
 
-	<!-- Build configurations for switching between project references and package references -->
+	<!-- **************  START: Build configurations  **************** -->
 
-	<!-- Debugging Common.Shared project locally -->
-	<PropertyGroup Condition="'$(Configuration)'=='Debug (CS)'">
+	<PropertyGroup Condition="'$(Configuration)'=='Debug-Local'">
 		<UseProjectRefs>true</UseProjectRefs>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)'!='Debug (CS)'">
+	<PropertyGroup Condition="'$(Configuration)'!='Debug-Local'">
 		<UseProjectRefs>false</UseProjectRefs>
 	</PropertyGroup>
-
+	<ItemGroup Condition="'$(UseProjectRefs)' == 'false'">
+		<PackageReference Include="Dyvenix.App1.Common.Shared" Version="1.0.4" />
+	</ItemGroup>
 	<ItemGroup Condition="'$(UseProjectRefs)' == 'true'">
 		<ProjectReference Include="..\Common.Shared\Common.Shared.csproj" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(UseProjectRefs)' != 'true'">
-		<PackageReference Include="Dyvenix.App1.Common.Shared" Version="1.0.3" />
-	</ItemGroup>
+	<!-- **************  END: Build configurations  **************** -->
 
 </Project>
