@@ -1,5 +1,6 @@
 using Dyvenix.App1.Common.Api.Services;
 using Dyvenix.App1.Common.Shared.Contracts;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Dyvenix.App1.Common.Api.Extensions.SvcCollExtensions;
 
