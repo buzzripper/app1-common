@@ -20,8 +20,6 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<!--<FrameworkReference Include="Microsoft.AspNetCore.App" />-->
-
 		<PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="10.6.0" />
 		<PackageReference Include="Microsoft.Extensions.ServiceDiscovery" Version="10.6.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.8" />
@@ -45,7 +43,7 @@
 		<UseProjectRefs>false</UseProjectRefs>
 	</PropertyGroup>
 	<ItemGroup Condition="'$(UseProjectRefs)' == 'false'">
-		<PackageReference Include="Dyvenix.App1.Common.Shared" Version="1.0.4" />
+		<PackageReference Include="Dyvenix.App1.Common.Shared" Version="1.0.5" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(UseProjectRefs)' == 'true'">
 		<ProjectReference Include="..\Common.Shared\Common.Shared.csproj" />

@@ -35,7 +35,7 @@
 	</PropertyGroup>
 	
 	<ItemGroup Condition="'$(UseProjectRefs)' == 'false'">
-		<PackageReference Include="Dyvenix.App1.Common.Shared" Version="1.0.4" />
+		<PackageReference Include="Dyvenix.App1.Common.Shared" Version="1.0.5" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(UseProjectRefs)' == 'true'">
 		<ProjectReference Include="..\Common.Shared\Common.Shared.csproj" />

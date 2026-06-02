@@ -30,7 +30,7 @@
 		<UseProjectRefs>false</UseProjectRefs>
 	</PropertyGroup>
 	<ItemGroup Condition="'$(UseProjectRefs)' == 'false'">
-		<PackageReference Include="Dyvenix.Core" Version="1.0.1" />
+		<PackageReference Include="Dyvenix.Core" Version="1.0.2" />
 	</ItemGroup>
 	<PropertyGroup Condition="'$(Configuration)'=='Debug-Local'">
 		<UseProjectRefs>true</UseProjectRefs>
